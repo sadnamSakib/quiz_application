@@ -25,17 +25,19 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-.quiz-card{
+.quiz-card {
   width: 75%;
   justify-content: center;
-  margin: 70px ;
+  margin: 70px;
 }
-.card-div{
-  align-items: center;
-
+.card-div {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.navbar{
- height: 50px;
+.navbar {
+  display: flex;
+  justify-content: space-around;
 }
 
 @layer utilities {

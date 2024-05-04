@@ -7,36 +7,20 @@ import "./globals.css";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Welcome to the Quiz App</h1>
+      <div>
+        <h1 className="text-2xl font-bold text-center">Welcome to Quiz App</h1>
+        <p className="text-lg">Take quizzes and improve your knowledge</p>
       </div>
-      <div className="flex">
-        <div>
-          <Link href="/createQuiz">
-            <Card href="#" className="max-w-sm">
-              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Create Quiz
-              </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                Create a new quiz by adding multiple choice questions.
-              </p>
-            </Card>
-          </Link>
+      <Card>
+        <div className="mb-6">
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold">User Stats</h2>
+            <p>Total quizzes taken: 2</p>
+            <p>Average score : 75%</p>
+            <p>Rank : 8</p>
+          </div>
         </div>
-        <div>
-          <Link href="/viewQuizzes">
-            <Card href="#" className="max-w-sm min-w-sm">
-              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Take a Quiz
-              </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                Take a quiz from our collection of quizzes and test your
-                knowledge.
-              </p>
-            </Card>
-          </Link>
-        </div>
-      </div>
+      </Card>
     </main>
   );
 }

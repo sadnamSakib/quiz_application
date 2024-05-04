@@ -8,7 +8,12 @@ const QuestionBox = ({ question, answers, correctAnswer }) => {
         <legend className="mb-4">{question}</legend>
         {answers.map((answer, index) => (
           <div key={index} className="flex items-center gap-4">
-            <Radio name="answer" id={`answer-${index}`} value={answer} />
+            <Radio
+              name="answer"
+              id={`answer-${index}`}
+              value={answer}
+              checked={correctAnswer === index}
+            />
             <Label htmlFor={`answer-${index}`}>{answer}</Label>
           </div>
         ))}

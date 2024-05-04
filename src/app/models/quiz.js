@@ -6,6 +6,10 @@ const Quiz = mongoose.Schema(
       type: String,
       required: false,
     },
+    difficulty: {
+      type: String,
+      required: false,
+    },
 
     questions: [
       {

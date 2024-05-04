@@ -2,7 +2,7 @@
 const nextConfig = {
   env: {
     MONGODB_URI:
-      "mongodb+srv://zaarazabeen:FQyquWacnEe9yPRt@cluster0.0e49ta0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+      "mongodb+srv://apurbo:ctIqblVJML1eZ9Wj@cluster0.nt4wnws.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
   },
 };
 

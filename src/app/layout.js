@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { Navbar } from "flowbite-react";
 import Link from "next/link";
 import "./globals.css";
 
@@ -11,23 +12,26 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="p-6">
+    <html lang="en" className="">
       <body className={inter.className}>
-        <div>
-          <nav className="navbar">
-            <ul className="flex">
-              <li className="text-2xl font-bold">
-                <Link href="/">Home | </Link>
+        <div className="bg-cyan-700 p-4">
+          <nav>
+            <ul className="navbar gap-4 justify-center">
+              <li className="text-2xl font-bold text-white">
+                <Link href="/">Home</Link>
               </li>
-              <li className="text-2xl font-bold">
-                <Link href="/createQuiz">Create Quiz | </Link>
+
+              <li className="text-2xl font-bold text-white">
+                <Link href="/createQuiz">Create Quiz</Link>
               </li>
-              <li className="text-2xl font-bold">
+
+              <li className="text-2xl font-bold text-white">
                 <Link href="/viewQuizzes">View Quizzes</Link>
               </li>
             </ul>
           </nav>
         </div>
+
         {children}
       </body>
     </html>

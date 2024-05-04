@@ -1,18 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Label, Radio, Button } from "flowbite-react";
+import { Label, Radio, Button, Card, Progress } from "flowbite-react";
 
 export default function Page({ params: { id } }) {
   const [quiz, setQuiz] = useState({});
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [started, setStarted] = useState(false);
-  const [questionTimers, setQuestionTimers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [questionIndex, setQuestionIndex] = useState(null);
   const [questions, setQuestions] = useState([]);
-  const [timeRemaining, setTimeRemaining] = useState(60);
-  const [totalScore, setTotalScore] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [progressValue, setProgressValue] = useState(100);
 
   useEffect(() => {
     fetch(`/api/quiz/${id}`)
@@ -23,6 +21,7 @@ export default function Page({ params: { id } }) {
         setQuestionIndex(0);
         setLoading(false);
         setTimeRemaining(data.questions[0].time);
+        setProgressValue(100);
       });
   }, []);
 
@@ -33,14 +32,12 @@ export default function Page({ params: { id } }) {
     }));
   };
 
-  const startQuiz = () => {
-    setStarted(true);
-    const initialTimers = quiz.questions.map(() => quiz.timePerQuestion || 60);
-    setQuestionTimers(initialTimers);
-  };
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeRemaining((prevTime) => prevTime - 1);
+      setProgressValue(
+        (timeRemaining / questions[questionIndex].time) * 1.0 * 100.0
+      );
     }, 1000);
     if (timeRemaining === 0) {
       handleNextQuestion();
@@ -60,6 +57,7 @@ export default function Page({ params: { id } }) {
     }
     setQuestionIndex((prevIndex) => prevIndex + 1);
     setTimeRemaining(quiz.questions[questionIndex].time);
+    setProgressValue(100);
   };
   const calculateScore = () => {
     let score = 0;
@@ -72,70 +70,103 @@ export default function Page({ params: { id } }) {
   };
   const handleRetryQuiz = () => {
     setSubmitted(false);
-    setStarted(false);
     setAnswers({});
     setQuestionIndex(0);
     setTimeRemaining(quiz.questions[0].time);
-    setTotalScore(0);
-    startQuiz();
   };
 
   return (
     <div>
       {!submitted && loading && <p>Loading...</p>}
-      {!started && !loading && (
-        <div className="m-6 p-6">
-          <h1>{quiz.quizName}</h1>
-          <h2>{quiz.questions.length} Questions</h2>
-          <Button onClick={startQuiz}>Start Quiz</Button>
-        </div>
-      )}
-      {!submitted && !loading && questionTimers.length > 0 && (
-        <div className="m-6 p-6">
-          <div>
-            {questionIndex + 1}/{questions.length}
-          </div>
-          <h1>{quiz.quizName}</h1>
-          <div className="m-6 p-6">
-            <h2>
-              {questionIndex + 1}. {questions[questionIndex].question}
-            </h2>
-            <p>Time Remaining: {timeRemaining}</p>
-            <fieldset className="flex max-w-md flex-col gap-4">
-              {questions[questionIndex].answers.map((answer, answerIndex) => (
-                <div key={answerIndex} className="flex items-center gap-2">
-                  <Radio
-                    id={`${questions[questionIndex]._id}-${answerIndex}`}
-                    name={`question-${questions[questionIndex]._id}`}
-                    value={answer}
-                    checked={
-                      answers[questions[questionIndex]._id] === answerIndex
-                    }
-                    onChange={() =>
-                      handleAnswerChange(
-                        questions[questionIndex]._id,
-                        answerIndex
-                      )
-                    }
-                    disabled={submitted}
-                  />
-                  <Label
-                    htmlFor={`${questions[questionIndex]._id}-${answerIndex}`}
-                  >
-                    {answer}
-                  </Label>
+      {!submitted && !loading && (
+        <div>
+          <div className="m-6 p-6 relative">
+            <div className="flex flex-row justify-between">
+              <div>
+                <h1 className="text-3xl font-bold mb-6">{quiz.quizName}</h1>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold mb-6">
+                  Question {questionIndex + 1}/{questions.length}
+                </h1>
+              </div>
+            </div>
+            <Card>
+              <div className="m-6 p-6">
+                <div className="flex flex-row justify-between">
+                  <h2 className="text-2xl font-bold mb-4">
+                    {questionIndex + 1}. {questions[questionIndex].question}
+                  </h2>
+                  <p className="text-xl mb-4">
+                    Time Remaining:{" "}
+                    <span
+                      className={`${
+                        timeRemaining <= 3 ? "text-red-500 animate-flash" : ""
+                      }`}
+                    >
+                      {timeRemaining} second{timeRemaining !== 1 ? "s" : ""}
+                    </span>
+                  </p>
                 </div>
-              ))}
-            </fieldset>
+                <fieldset className="flex max-w-md flex-col gap-4">
+                  {questions[questionIndex].answers.map(
+                    (answer, answerIndex) => (
+                      <div
+                        key={answerIndex}
+                        className="flex items-center gap-2"
+                      >
+                        <Radio
+                          id={`${questions[questionIndex]._id}-${answerIndex}`}
+                          name={`question-${questions[questionIndex]._id}`}
+                          value={answer}
+                          checked={
+                            answers[questions[questionIndex]._id] ===
+                            answerIndex
+                          }
+                          onChange={() =>
+                            handleAnswerChange(
+                              questions[questionIndex]._id,
+                              answerIndex
+                            )
+                          }
+                          disabled={submitted}
+                        />
+                        <Label
+                          htmlFor={`${questions[questionIndex]._id}-${answerIndex}`}
+                          className="text-lg"
+                        >
+                          {answer}
+                        </Label>
+                      </div>
+                    )
+                  )}
+                </fieldset>
+                <div className="p-5">
+                  <Progress
+                    progress={progressValue}
+                    progressLabelPosition="inside"
+                    textLabel=""
+                    textLabelPosition="outside"
+                    size="lg"
+                    labelText
+                    color={progressValue < 20 ? "red" : "blue"}
+                  />
+                </div>
+              </div>
+            </Card>
           </div>
-          <Button
-            className="mb-4"
-            onClick={handleNextQuestion}
-            disabled={submitted || questionIndex === questions.length - 1}
-          >
-            Next Question{" "}
-          </Button>
-          <Button onClick={handleSubmitQuiz}>Submit Quiz</Button>
+          <div className="flex flex-row justify-center">
+            <Button onClick={handleSubmitQuiz} className="mx-auto">
+              Submit Quiz
+            </Button>
+            <Button
+              onClick={handleNextQuestion}
+              className="mx-auto"
+              disabled={questionIndex === questions.length - 1}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       )}
       {submitted && (
