@@ -1,0 +1,62 @@
+{
+    "quizzes": [
+        {
+            "quizId": "1",
+            "quizName": "Quiz 1",
+            "time": 10,
+            "questions": [
+                {
+                    "questionId": "1",
+                    "questionText": "What is the capital of France?",
+                    "answers": [
+                        "London",
+                        "Paris",
+                        "Berlin",
+                        "Madrid"
+                    ],
+                    "correctAnswerIndex": 1
+                },
+                {
+                    "questionId": "2",
+                    "questionText": "What is the largest planet in our solar system?",
+                    "answers": [
+                        "Mars",
+                        "Jupiter",
+                        "Earth",
+                        "Saturn"
+                    ],
+                    "correctAnswerIndex": 1
+                }
+            ]
+        },
+        {
+            "quizId": "2",
+            "quizName": "Quiz 2",
+            "time": 15,
+            "questions": [
+                {
+                    "questionId": "1",
+                    "questionText": "What is the capital of Japan?",
+                    "answers": [
+                        "Tokyo",
+                        "Beijing",
+                        "Seoul",
+                        "Bangkok"
+                    ],
+                    "correctAnswerIndex": 0
+                },
+                {
+                    "questionId": "2",
+                    "questionText": "What is the largest ocean in the world?",
+                    "answers": [
+                        "Atlantic Ocean",
+                        "Indian Ocean",
+                        "Arctic Ocean",
+                        "Pacific Ocean"
+                    ],
+                    "correctAnswerIndex": 3
+                }
+            ]
+        }
+    ]
+}
