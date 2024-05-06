@@ -5,7 +5,7 @@ import { Card, Pagination, Button } from "flowbite-react";
 const ViewQuizzes = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [quizzesPerPage] = useState(4); // Number of quizzes to show per page
+  const [quizzesPerPage] = useState(4);
 
   const onPageChange = (page) => setCurrentPage(page);
   useEffect(() => {
@@ -38,7 +38,7 @@ const ViewQuizzes = () => {
           </Card>
         ))}
       </div>
-      {/* Pagination */}
+      <hr />
       <div className="flex justify-center mt-4 mb-5">
         <Pagination
           currentPage={currentPage}

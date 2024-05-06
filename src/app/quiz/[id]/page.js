@@ -48,7 +48,6 @@ export default function Page({ params: { id } }) {
   const handleSubmitQuiz = () => {
     setSubmitted(true);
     console.log(answers);
-    // Optionally, you can submit the quiz answers to the server here
   };
   const handleNextQuestion = () => {
     if (questionIndex === questions.length - 1) {
